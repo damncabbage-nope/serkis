@@ -1,0 +1,3 @@
+[submodule "vendor/gems/gollum"]
+	path = vendor/gems/gollum
+	url = git@github.com:smashcon/gollum.git
