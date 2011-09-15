@@ -39,4 +39,4 @@ We haven't had time to split out the authentication into a Warden strategy yet o
 Licence
 -------
 
-Original code &copy; 2011 Michael Camilleri. SMASH! Wiki is distributed under an [MIT Licence](http://en.wikipedia.org/wiki/MIT_License).
+Original code &copy; 2011 Michael Camilleri. Serkis is distributed under an [MIT Licence](http://en.wikipedia.org/wiki/MIT_License).
