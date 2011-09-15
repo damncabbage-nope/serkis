@@ -13,11 +13,14 @@ Installation
 git clone git://github.com/smashcon/serkis.git  # Warning: read-only.
 cd serkis
 
-cd pages
-git init
+# Create the git repo that will be used by Gollum to track changes.
+git init pages
 
-cd ..
+# Import the submodules
+git submodule init
+git submodule update
 
+# Install the files
 bundle install
 alias be="bundle exec"
 
