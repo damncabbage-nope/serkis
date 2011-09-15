@@ -6,7 +6,7 @@ vendor/bundler
 config/environments.rb
 
 # Pages in the Wiki
-pages/*.md
+pages
 
 # The usual suspects
 Thumbs.db
