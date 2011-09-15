@@ -31,7 +31,7 @@ set :mustache, {
 }
 
 # Settings for Gollum
-set :gollum_path, File.dirname(__FILE__)
+set :gollum_path, File.dirname(__FILE__) + '/pages'
 set :wiki_options, { }
 
 # Sinatra error handling
