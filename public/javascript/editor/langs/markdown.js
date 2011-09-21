@@ -195,6 +195,11 @@ var MarkDownHelp = [
                   menuName: 'Automatic Links',
                   data: '<p>If you want to create a link that displays the actual URL, markdown allows you to quickly wrap the URL in <code>&lt;</code> and <code>&gt;</code> to do so. For example, the link <a href="javascript:void(0);">http://github.com/</a> is easily produced by writing <code>&lt;http://github.com/&gt;</code>.</p>'
                 },
+
+                {
+                  menuName: 'Embedded YouTube Videos',
+                  data: '<p>If you want to embed a YouTube video, you can do that by simply putting the URL to the YouTube video on a line by itself. Markdown will automatically insert the embedded code for you.</p>'
+                },
                 
                 {
                   menuName: 'Escaping',

@@ -45,12 +45,12 @@ configure :test do
 end
 
 get '/' do
-  redirect '/login' unless is_logged_in  
+  authenticate
   show_page_or_file('Home')
 end
 
 get '/edit/*' do
-  redirect '/login' unless is_logged_in  
+  authenticate
   @name = params[:splat].first
   wiki = Gollum::Wiki.new(settings.gollum_path, settings.wiki_options)
   if page = wiki.page(@name)
@@ -63,15 +63,14 @@ get '/edit/*' do
 end
 
 post '/edit/*' do
-  authenticate
+  authenticate!
   wiki = Gollum::Wiki.new(settings.gollum_path, settings.wiki_options)
   page = wiki.page(params[:splat].first)
   name = params[:rename] || page.name
   committer = Gollum::Committer.new(wiki, commit_message)
   commit    = {:committer => committer}
-
-  update_wiki_page(wiki, page, params[:content], commit, name,
-    params[:format])
+  
+  update_wiki_page(wiki, page, params[:content], commit, name, params[:format])
   update_wiki_page(wiki, page.footer,  params[:footer],  commit) if params[:footer]
   update_wiki_page(wiki, page.sidebar, params[:sidebar], commit) if params[:sidebar]
   committer.commit
@@ -80,7 +79,7 @@ post '/edit/*' do
 end
 
 post '/create' do
-  authenticate
+  authenticate!
   name = params[:page]
   wiki = Gollum::Wiki.new(settings.gollum_path, settings.wiki_options)
 
@@ -96,7 +95,7 @@ post '/create' do
 end
 
 post '/revert/:page/*' do
-  authenticate
+  authenticate!
   wiki  = Gollum::Wiki.new(settings.gollum_path, settings.wiki_options)
   @name = params[:page]
   @page = wiki.page(@name)
@@ -117,7 +116,10 @@ post '/revert/:page/*' do
 end
 
 post '/preview' do
-  authenticate
+  authenticate!
+  
+  params[:content] = youtubify params[:content] # Change the YouTube links
+  
   wiki      = Gollum::Wiki.new(settings.gollum_path, settings.wiki_options)
   @name     = "Preview"
   @page     = wiki.preview_page(@name, params[:content], params[:format])
@@ -127,7 +129,7 @@ post '/preview' do
 end
 
 get '/history/:name' do
-  redirect '/login' unless is_logged_in
+  authenticate
   @name     = params[:name]
   wiki      = Gollum::Wiki.new(settings.gollum_path, settings.wiki_options)
   @page     = wiki.page(@name)
@@ -137,7 +139,7 @@ get '/history/:name' do
 end
 
 post '/compare/:name' do
-  authenticate
+  authenticate!
   @versions = params[:versions] || []
   if @versions.size < 2
     redirect "/history/#{CGI.escape(params[:name])}"
@@ -150,7 +152,7 @@ post '/compare/:name' do
 end
 
 get '/compare/:name/:version_list' do
-  redirect '/login' unless is_logged_in  
+  authenticate
   @name     = params[:name]
   @versions = params[:version_list].split(/\.{2,3}/)
   wiki      = Gollum::Wiki.new(settings.gollum_path, settings.wiki_options)
@@ -165,10 +167,11 @@ get %r{^/(javascript|css|images)} do
 end
 
 get %r{/(.+?)/([0-9a-f]{40})} do
-  redirect '/login' unless is_logged_in  
+  authenticate
   name = params[:captures][0]
   wiki = Gollum::Wiki.new(settings.gollum_path, settings.wiki_options)
   if page = wiki.page(name, params[:captures][1])
+    page = process page    
     @page = page
     @name = name
     @content = page.formatted_data
@@ -180,7 +183,7 @@ get %r{/(.+?)/([0-9a-f]{40})} do
 end
 
 get '/search' do
-  redirect '/login' unless is_logged_in  
+  authenticate
   @query = params[:q]
   wiki = Gollum::Wiki.new(settings.gollum_path, settings.wiki_options)
   @results = wiki.search @query
@@ -189,7 +192,7 @@ get '/search' do
 end
 
 get '/pages' do
-  redirect '/login' unless is_logged_in  
+  authenticate
   wiki = Gollum::Wiki.new(settings.gollum_path, settings.wiki_options)
   @results = wiki.pages
   @ref = wiki.ref
@@ -223,13 +226,14 @@ get '/logout' do
 end
 
 get '/*' do
-  redirect '/login' unless is_logged_in  
+  authenticate
   show_page_or_file(params[:splat].first)
 end
 
 def show_page_or_file(name)
   wiki = Gollum::Wiki.new(settings.gollum_path, settings.wiki_options)
   if page = wiki.page(name)
+    page = process page
     @page = page
     @name = name
     @content = page.formatted_data
@@ -245,8 +249,7 @@ def show_page_or_file(name)
 end
 
 def update_wiki_page(wiki, page, content, commit_message, name = nil, format = nil)
-  return if !page ||  
-    ((!content || page.raw_data == content) && page.format == format)
+  return if !page || ((!content || page.raw_data == content) && page.format == format)
   name    ||= page.name
   format    = (format || page.format).to_sym
   content ||= page.raw_data
@@ -261,9 +264,27 @@ def commit_message
 end
 
 def authenticate
+  redirect '/login' unless is_logged_in
+end
+
+def authenticate!
   halt(403, 'You are not logged in.') unless is_logged_in
 end
 
 def is_logged_in
   session[:username] # Nil if not set, otherwise truthy.
+end
+
+def process(page)
+  if (Gollum::Page.format_for(page.filename) == :markdown)
+    data = youtubify page.raw_data # Change links to embedded codes
+    blob = OpenStruct.new(:name => page.filename, :data => data)
+    page.populate(blob)
+  end
+  
+  return page
+end
+
+def youtubify(link)  
+  link.gsub(/^http:\/\/www\.youtube\.com\/watch\?v=([A-Za-z0-9_-]+)(?:&[A-Za-z0-9=_-]*)*$/i, '<object style="height: 390px; width: 640px"><param name="movie" value="http://www.youtube.com/v/\\1?version=3"><param name="allowFullScreen" value="true"><param name="allowScriptAccess" value="always"><embed src="http://www.youtube.com/v/\\1?version=3" type="application/x-shockwave-flash" allowfullscreen="true" allowScriptAccess="always" width="640" height="390"></object>')
 end
