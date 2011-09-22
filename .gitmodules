@@ -1,3 +1,6 @@
 [submodule "vendor/gems/gollum"]
 	path = vendor/gems/gollum
 	url = git@github.com:smashcon/gollum.git
+[submodule "vendor/gems/grit"]
+	path = vendor/gems/grit
+	url = git://github.com/mojombo/grit.git
