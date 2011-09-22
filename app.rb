@@ -276,6 +276,8 @@ def is_logged_in
 end
 
 def process(page)
+  return page
+
   if (Gollum::Page.format_for(page.filename) == :markdown)
     data = youtubify page.raw_data # Change links to embedded codes
     blob = OpenStruct.new(:name => page.filename, :data => data)
