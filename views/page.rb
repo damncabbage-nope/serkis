@@ -16,7 +16,7 @@ module Precious
       end
 
       def date
-        @page.version.authored_date.strftime("%Y-%m-%d %H:%M:%S")
+        @page.version.authored_date.strftime("%l.%M %P on %A %e %B %Y")
       end
       
       def editable
