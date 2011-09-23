@@ -276,8 +276,6 @@ def is_logged_in
 end
 
 def process(page)
-  return page
-
   if (Gollum::Page.format_for(page.filename) == :markdown)
     data = youtubify page.raw_data # Change links to embedded codes
     blob = OpenStruct.new(:name => page.filename, :data => data)
@@ -288,5 +286,5 @@ def process(page)
 end
 
 def youtubify(link)  
-  link.gsub(/^http:\/\/www\.youtube\.com\/watch\?v=([A-Za-z0-9_-]+)(?:&[A-Za-z0-9=_-]*)*$/i, '<object style="height: 390px; width: 640px"><param name="movie" value="http://www.youtube.com/v/\\1?version=3"><param name="allowFullScreen" value="true"><param name="allowScriptAccess" value="always"><embed src="http://www.youtube.com/v/\\1?version=3" type="application/x-shockwave-flash" allowfullscreen="true" allowScriptAccess="always" width="640" height="390"></object>')
+  link.gsub(/^http:\/\/www\.youtube\.com\/watch\?v=([A-Za-z0-9_-]+)(?:&[A-Za-z0-9=_-]*)*$/i, '<p><iframe width="300" height="233" src="http://www.youtube.com/embed/\\1" frameborder="0" allowfullscreen></iframe></p>')
 end

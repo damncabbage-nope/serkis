@@ -11,6 +11,14 @@ PATH
       sanitize (~> 2.0.0)
       sinatra (~> 1.0)
 
+PATH
+  remote: vendor/gems/grit
+  specs:
+    grit (2.4.1)
+      diff-lcs (~> 1.1)
+      mime-types (~> 1.15)
+      posix-spawn (~> 0.3.6)
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -39,9 +47,6 @@ GEM
       multipart-post (~> 1.1.0)
       rack (>= 1.1.0, < 2)
     github-markup (0.5.3)
-    grit (2.4.1)
-      diff-lcs (~> 1.1)
-      mime-types (~> 1.15)
     i18n (0.6.0)
     mime-types (1.16)
     multi_json (1.0.3)
@@ -69,5 +74,6 @@ PLATFORMS
 DEPENDENCIES
   basecamp
   gollum!
+  grit!
   rake
   sinatra

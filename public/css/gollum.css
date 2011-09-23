@@ -37,6 +37,7 @@ a:hover, a:visited {
 }
 
   #head h1 {
+		color: #999;
     font-size: 3.3em;
     float: left;
     line-height: normal;
@@ -210,7 +211,7 @@ a:hover, a:visited {
     margin: 1em 0 7em;
   }
   
-  #footer p#last-edit {
+  #footer p {
     font-size: 1.2em;
     line-height: 1.6em;
     color: #999;
@@ -332,7 +333,7 @@ a:hover, a:visited {
 
 .history #wiki-history ul.actions li,
 .history #footer ul.actions li {
-  margin: 0 0.6em 0 0;
+  margin: 0 0 0 0.6em;
 }
 
 
@@ -373,7 +374,7 @@ a:hover, a:visited {
     .results #results ul li {
       font-size: 1.2em;
       line-height: 1.6em;
-      list-style-position: outside;
+      list-style-position: inside;
       padding: 0.2em 0;
     }
     

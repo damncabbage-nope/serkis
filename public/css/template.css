@@ -6,6 +6,9 @@
   font-size: 13px;
   line-height: 23px;
   margin-bottom: 40px;
+	padding-top: 10px;
+	width: 60%;
+	float: left;
 }
 
 /* Link Colors */
@@ -32,11 +35,11 @@ a.absent {
 }
 
 #template h1 {
-  border-top: 4px solid #ccc;
-  font-size: 32px;
+/*  border-top: 4px solid #ccc; */
+  font-size: 26px;
   line-height: normal;
-  padding: 10px 0 0;
-  margin: 30px 0 0;
+  padding: 10px 0 0 0;
+  margin: 0 0 0 0;
 }
 
 #template h2 {
@@ -89,8 +92,7 @@ a.absent {
 }
 
   /* Border Reset for headers with horizontal rules */ 
-  #template > h2:first-child, 
-  #template > h1:first-child {
+  #template > h2:first-child {
     border: 0;
     margin: 12px 0 0;
     padding: 10px 0 0;
@@ -165,8 +167,11 @@ a.absent {
   }
 
 /* Images & Stuff */
-#template img {
-  max-width: 100%;
+#template img, #template iframe {
+  max-width: 300px;
+	margin-top: 5px;
+	margin-right: -350px;
+	float: right;
 }
 
 /* Gollum Image Tags */
