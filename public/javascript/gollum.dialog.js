@@ -18,7 +18,7 @@
        });
        $('#gollum-dialog-action-cancel').click( Dialog.eventCancel );
      },
-   
+     
      createFieldMarkup: function( fieldArray ) {
        var fieldMarkup = '<fieldset>';
        for ( var i=0; i < fieldArray.length; i++ ) {
@@ -26,10 +26,19 @@
            fieldMarkup += '<div class="field">';
            switch ( fieldArray[i].type ) {
            
-             // only text is supported for now
              case 'text':
               fieldMarkup += Dialog.createFieldText( fieldArray[i] );
               break;
+
+             // Based on the work of atduskgreg @ https://github.com/atduskgreg/gollum/commit/bc7090a1f3fdbc1d7be1e2a2c3624afe7f6f1ca4#L6R393
+             case 'file':
+              fieldMarkup += Dialog.createFieldFile( fieldArray[i] );
+              break;
+
+             // For situations in which you want to give the user the option of a file button or a text field
+             case 'file_or_text':
+              fieldMarkup += Dialog.createFieldFileOrText( fieldArray[i] );
+              break;              
               
              default:
               break;
@@ -49,7 +58,7 @@
        if ( fieldAttributes.name ) {
          html += '<label';
          if ( fieldAttributes.id ) {
-           html += ' for="' + fieldAttributes.name + '"';
+           html += ' for="' + fieldAttributes.id + '"';
          }
          html += '>' + fieldAttributes.name + '</label>';
        }
@@ -64,6 +73,88 @@
          html += ' id="gollum-dialog-dialog-generated-field-' +
                  fieldAttributes.id + '">';
        }
+     
+       return html;
+     },
+
+     createFieldFile: function( fieldAttributes ) {
+       var html = '';
+     
+       if ( fieldAttributes.name ) {
+         html += '<label';
+         if ( fieldAttributes.id ) {
+           html += ' for="' + fieldAttributes.id + '"';
+         }
+         html += '>' + fieldAttributes.name + '</label>';
+       }
+     
+       html += '<input type="file"';
+     
+       if ( fieldAttributes.id ) {
+         html += ' name="' + fieldAttributes.id + '"'
+         if ( fieldAttributes.type == 'code' ) {
+           html+= ' class="code"';
+         }
+         html += ' id="gollum-dialog-dialog-generated-field-' +
+                 fieldAttributes.id + '">';
+       }
+     
+       return html;
+     },
+
+     createFieldFileOrText: function( fieldAttributes ) {
+       var html = '';
+       
+       html += '<div class="gollum-dialog-radio-controls">'
+       html += '<input type="radio" name="file_or_text" value="file" id="' + fieldAttributes.id + '_file_or_text_file" checked="checked" /> <label for="' + fieldAttributes.id + '_file_or_text_file">File</label>'
+       html += '<input type="radio" name="file_or_text" value="text" id="' + fieldAttributes.id + '_file_or_text_text" /> <label for="' + fieldAttributes.id + '_file_or_text_text">URL</label>'
+       html += '</div>'
+       
+       html += '<div class="gollum-dialog-file">'
+     
+       if ( fieldAttributes.name ) {
+         html += '<label';
+         if ( fieldAttributes.id ) {
+           html += ' for="' + fieldAttributes.id + '_file"';
+         }
+         html += '>' + fieldAttributes.name + ' File</label>';
+       }
+     
+       html += '<input type="file"';
+     
+       if ( fieldAttributes.id ) {
+         html += ' name="' + fieldAttributes.id + '_file"'
+         if ( fieldAttributes.type == 'code' ) {
+           html+= ' class="code"';
+         }
+         html += ' id="gollum-dialog-dialog-generated-field-' +
+                 fieldAttributes.id + '_file">';
+       }
+       
+       html += '</div>'
+       
+       html += '<div class="gollum-dialog-text">'
+
+       if ( fieldAttributes.name ) {
+         html += '<label';
+         if ( fieldAttributes.id ) {
+           html += ' for="' + fieldAttributes.id + '_text"';
+         }
+         html += '>' + fieldAttributes.name + ' URL</label>';
+       }
+     
+       html += '<input type="text"';
+     
+       if ( fieldAttributes.id ) {
+         html += ' name="' + fieldAttributes.id + '_text"'
+         if ( fieldAttributes.type == 'code' ) {
+           html+= ' class="code"';
+         }
+         html += ' id="gollum-dialog-dialog-generated-field-' +
+                 fieldAttributes.id + '_text">';
+       }
+       
+       html += '</div>'
      
        return html;
      },
@@ -157,6 +248,19 @@
             typeof argObject.OK == 'function' ) {
          Dialog.attachEvents( argObject.OK );
        }
+       
+       if ( $dialog.find('.gollum-dialog-radio-controls').length ) {
+         $dialog.find('.gollum-dialog-text').hide();
+         $dialog.find(':radio').change(function(e) {
+           if ( $(this).is(':checked') ) {
+             $dialog.find('.gollum-dialog-text').toggle();
+             $dialog.find('.gollum-dialog-file').toggle();
+             dialogHeight = $dialog.find('#gollum-dialog-dialog-bg').outerHeight();
+             $dialog.find('#gollum-dialog-dialog-inner').css('height', dialogHeight + 'px');
+          }
+         });
+       }
+       
        Dialog.show();
      },
    

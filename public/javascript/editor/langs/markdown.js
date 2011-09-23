@@ -107,9 +107,9 @@ var MarkDown = {
                                   title: 'Insert Image',
                                   fields: [
                                     {
-                                      id: 'url',
-                                      name: 'Image URL',
-                                      type: 'text'
+                                      id: 'image',
+                                      name: 'Image',
+                                      type: 'file_or_text'
                                     },
                                     {
                                       id: 'alt',
@@ -119,10 +119,13 @@ var MarkDown = {
                                   ],
                                   OK: function( res ) {
                                     var rep = '';
-                                    if ( res['url'] && res['alt'] ) {
+                                    if ( res['image_file'] && res['alt'] ) {
                                       rep = '![' + res['alt'] + ']' +
-                                            '(' + res['url'] + ')';
-                                    }
+                                            '(' + res['image_file'] + ')';
+                                    } else if ( res['image_text'] && res['alt'] ) {
+                                      rep = '![' + res['alt'] + ']' +
+                                            '(' + res['image_text'] + ')';
+                                    }                                    
                                     $.GollumEditor.replaceSelection( rep );
                                   }
                                 });
