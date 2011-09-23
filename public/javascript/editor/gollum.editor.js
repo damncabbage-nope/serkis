@@ -14,7 +14,8 @@
     NewFile: false,
     HasFunctionBar: true,
     Debug: false,
-    NoDefinitionsFor: []
+    NoDefinitionsFor: [],
+    Page: ''
   };
   var ActiveOptions = {};
 
@@ -26,7 +27,7 @@
   $.GollumEditor = function( IncomingOptions ) {
 
     ActiveOptions = $.extend( DefaultOptions, IncomingOptions );
-
+    
     debug('GollumEditor loading');
 
     if ( EditorHas.baseEditorMarkup() ) {
@@ -1080,5 +1081,10 @@
 
    // Placeholder exists as its own thing now
    $.GollumEditor.Placeholder = $.GollumPlaceholder;
+   
+   // Return the ActiveOptions
+   $.GollumEditor.getActiveOptions = function() {
+     return ActiveOptions;
+   }
 
 })(jQuery);

@@ -125,8 +125,10 @@ var MarkDown = {
                                     } else if ( res['image_text'] && res['alt'] ) {
                                       rep = '![' + res['alt'] + ']' +
                                             '(' + res['image_text'] + ')';
-                                    }                                    
+                                    }       
                                     $.GollumEditor.replaceSelection( rep );
+                                    
+                                    $("#gollum-dialog-form").ajaxSubmit();
                                   }
                                 });
                               }

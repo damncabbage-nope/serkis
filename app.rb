@@ -3,6 +3,7 @@ require 'sinatra'
 require 'gollum'
 require 'mustache/sinatra'
 require 'basecamp'
+require 'fileutils'
 
 require 'gollum/frontend/views/layout'
 require 'gollum/frontend/views/editable'
@@ -197,6 +198,21 @@ get '/pages' do
   @results = wiki.pages
   @ref = wiki.ref
   mustache :pages
+end
+
+post '/attachment' do
+  authenticate!
+
+  if(params[:file_or_text] == 'file')
+    prefix = params[:page_name]
+    tempfile = params[:image_file][:tempfile]
+    filename = params[:image_file][:filename]
+    FileUtils.copy(tempfile.path, "./attachments/#{prefix}_#{filename}")
+    return 'OK'
+  elsif(params[:file_or_text] == 'text')
+    # Download the remote file.
+  end
+
 end
 
 get '/login' do

@@ -20,7 +20,7 @@
      },
      
      createFieldMarkup: function( fieldArray ) {
-       var fieldMarkup = '<fieldset>';
+       var fieldMarkup = '<form method="post" action="/attachment" enctype="multipart/form-data" id="gollum-dialog-form"><fieldset>';
        for ( var i=0; i < fieldArray.length; i++ ) {
          if ( typeof fieldArray[i] == 'object' ) {
            fieldMarkup += '<div class="field">';
@@ -48,7 +48,7 @@
          }
        
        }
-       fieldMarkup += '</fieldset>';
+       fieldMarkup += '</fieldset></form>';
        return fieldMarkup;
      },
    
@@ -155,6 +155,9 @@
        }
        
        html += '</div>'
+
+       options = $.GollumEditor.getActiveOptions();
+       html += '<input type="hidden" name="page_name" value="' + options.Page + '" />'
      
        return html;
      },

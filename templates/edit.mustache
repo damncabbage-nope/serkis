@@ -12,6 +12,11 @@
 </div>
 <script type="text/javascript">
 jQuery(document).ready(function() {
-  $.GollumEditor();
+
+  var options = {
+    Page: '{{escaped_name}}'
+  };
+
+  $.GollumEditor(options);
 });
 </script>
