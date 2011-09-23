@@ -117,18 +117,21 @@ var MarkDown = {
                                       type: 'text'
                                     }
                                   ],
-                                  OK: function( res ) {
+                                  OK: function( res ) {                                
+                                    $("#gollum-dialog-form").ajaxSubmit();
+                                    
+                                    options = $.GollumEditor.getActiveOptions();
+                                    prefix = options.Page;
+                                    
                                     var rep = '';
                                     if ( res['image_file'] && res['alt'] ) {
                                       rep = '![' + res['alt'] + ']' +
-                                            '(' + res['image_file'] + ')';
+                                            '(' + '/attachments/' + prefix + '_' + res['image_file'].split('\\').pop().split('/').pop() + ')';
                                     } else if ( res['image_text'] && res['alt'] ) {
                                       rep = '![' + res['alt'] + ']' +
                                             '(' + res['image_text'] + ')';
                                     }       
                                     $.GollumEditor.replaceSelection( rep );
-                                    
-                                    $("#gollum-dialog-form").ajaxSubmit();
                                   }
                                 });
                               }

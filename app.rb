@@ -207,7 +207,7 @@ post '/attachment' do
     prefix = params[:page_name]
     tempfile = params[:image_file][:tempfile]
     filename = params[:image_file][:filename]
-    FileUtils.copy(tempfile.path, "./attachments/#{prefix}_#{filename}")
+    FileUtils.copy(tempfile.path, "./public/attachments/#{prefix}_#{filename}")
     return 'OK'
   elsif(params[:file_or_text] == 'text')
     # Download the remote file.
