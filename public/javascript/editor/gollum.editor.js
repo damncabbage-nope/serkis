@@ -1085,6 +1085,64 @@
    // Return the ActiveOptions
    $.GollumEditor.getActiveOptions = function() {
      return ActiveOptions;
-   }
+   };
+   
+   // Return the ActiveOptions
+   $.GollumEditor.initImageRoll = function() {
+
+     // Get the container
+     var div = $('#gollum-image-roll');
+
+     // Get the controls
+     var prev = $('#gollum-image-roll-controls a.prev');
+     var next = $('#gollum-image-roll-controls a.next');
+     
+     // Get the scrollable object
+     var roll = $('#gollum-image-roll-images');     
+     
+     // If this is Mac OS X Lion, allow scrolling
+     if ( navigator.userAgent.indexOf('Mac OS X 10_7') != -1 ) {
+       roll.css('overflow-x', 'scroll');
+     }
+     
+     // Set up the divs
+     var div_outer_width = div.width();
+     var div_inner_width = div.width() - (parseInt(div.css('padding-left').replace('px','')) + parseInt(div.css('padding-right').replace('px','')));
+     
+     var total_width = 0;
+     $('#gollum-image-roll li').each(function() {
+       total_width += $(this).outerWidth(true);
+     })
+     
+     if ( total_width <= div_inner_width || $('#gollum-image-roll-images-noimages').length != 0 ) {
+       $('#gollum-image-roll-controls').css('opacity', '0.5');
+     }
+     
+     ( $('#gollum-image-roll-images-noimages').length == 0 ) ? $('#gollum-image-roll ul').width(div_inner_width) : $('#gollum-image-roll ul').width(div_inner_width);
+     $('#gollum-image-roll-images').width(div_inner_width);
+     $('#gollum-image-roll').width(div_inner_width)
+      
+     // Attach the listeners
+     prev.click(function(e) {
+       e.preventDefault();
+       current_pos = roll.scrollLeft();
+       roll.animate({ scrollLeft: (current_pos - 50) }, 100);
+     });
+     
+     next.click(function(e) {
+       e.preventDefault();
+       current_pos = roll.scrollLeft();
+       roll.animate({ scrollLeft: (current_pos + 50) }, 100);
+     });
+     
+     // If an image is clicked, insert it into the textarea.
+     var images = $('#gollum-image-roll-images img');
+     images.click(function() {
+       image = $(this);
+       var rep = '';
+       rep = '![' + 'Image' + ']' + '(' + image.attr('src') + ')';
+       $.GollumEditor.replaceSelection( rep );
+     });
+   };
 
 })(jQuery);

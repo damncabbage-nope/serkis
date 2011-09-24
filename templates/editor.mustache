@@ -83,6 +83,22 @@
       </div>
     </div>
   </div>
+  <div id="gollum-image-roll">
+    <div id="gollum-image-roll-controls">
+      <a href="#" class="prev"><span>Previous</span></a>
+      <a href="#" class="next"><span>Next</span></a>
+    </div>
+    <div id="gollum-image-roll-images">
+      <ul>
+      {{#no_images?}}
+        <li id="gollum-image-roll-images-noimages">No Images Attached</li>
+      {{/no_images?}}
+      {{#images}}
+        <li><img src="{{src}}" title="Click to insert" /></li>        
+      {{/images}}
+      </ul>
+    </div>
+  </div>
     <textarea id="gollum-editor-body"
      data-markup-lang="{{format}}" name="content">{{content}}</textarea>
      

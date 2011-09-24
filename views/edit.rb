@@ -47,6 +47,14 @@ module Precious
         @format = (@page.format || false) if @format.nil?
         @format.to_s.downcase
       end
+      
+      def images
+        
+      end
+      
+      def no_images?
+        true
+      end
     end
   end
 end

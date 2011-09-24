@@ -535,3 +535,123 @@ a#function-help:hover span { background-position: -405px -28px; }
   padding-top: 0.25em;
   padding-bottom: 0.75em;
 }
+
+#gollum-image-roll {
+	background-color: #666;
+	margin-top: 1em;
+	height: 50px;
+	border: solid 1px #333333;
+	padding: 0.5em 30px;
+	width: 98%;
+	overflow: hidden;
+}
+
+#gollum-image-roll-controls {
+	z-index: 3;
+}
+
+	#gollum-image-roll-controls span {
+	}
+
+	#gollum-image-roll-controls a.prev {
+		float: left;
+		margin-left: -25px;
+	 	background: #f7f7f7;
+	  border: 1px solid #ddd;
+	  color: #333;
+	  display: block;
+	  height: 50px;
+	  overflow: hidden;
+	  text-shadow: 0 1px 0 #fff;
+	  width: 15px;
+
+	  border-radius: 0.3em;
+	  -moz-border-radius: 0.3em;
+	  -webkit-border-radius: 0.3em;
+
+	  filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#f4f4f4', endColorstr='#ececec');
+	  background: -webkit-gradient(linear, left top, left bottom, from(#f4f4f4), to(#ececec));
+	  background: -moz-linear-gradient(top, #f4f4f4, #ececec);
+	}
+	
+	#gollum-image-roll-controls a.prev span {
+		background-image: url(../images/icon-arrows.png);
+		background-repeat: no-repeat;
+		display: block;
+		text-indent: -5000px;
+		overflow: hidden;
+		width: 15px;
+		height: 50px;
+	}
+
+	#gollum-image-roll-controls a.next {
+		float: right;
+		margin-right: -25px;
+	 	background: #f7f7f7;
+	  border: 1px solid #ddd;
+	  color: #333;
+	  display: block;
+	  height: 50px;
+	  overflow: hidden;
+	  text-shadow: 0 1px 0 #fff;
+	  width: 15px;
+
+	  border-radius: 0.3em;
+	  -moz-border-radius: 0.3em;
+	  -webkit-border-radius: 0.3em;
+
+	  filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#f4f4f4', endColorstr='#ececec');
+	  background: -webkit-gradient(linear, left top, left bottom, from(#f4f4f4), to(#ececec));
+	  background: -moz-linear-gradient(top, #f4f4f4, #ececec);		
+	}
+	
+	#gollum-image-roll-controls a.next span {
+		background-image: url(../images/icon-arrows.png);
+		background-repeat: no-repeat;
+		background-position: -15px 0;
+		display: block;
+		text-indent: -5000px;
+		overflow: hidden;
+		width: 15px;
+		height: 50px;
+	}	
+
+#gollum-image-roll-images {
+	overflow: hidden;
+}
+
+	#gollum-image-roll-images ul {
+		list-style: none;
+		height: 50px;
+		margin: 0;
+		padding: 0;
+	}
+
+	#gollum-image-roll-images li {
+		height: 50px;
+		float: left;
+		margin-right: 1em;
+	}
+
+	#gollum-image-roll-images img {
+		line-height: 50px;
+		height: 50px;
+		width: 50px;
+		opacity: 0.8;
+		cursor: pointer;
+	}
+
+	#gollum-image-roll-images img:hover {
+		opacity: 1.0;
+	}
+	
+#gollum-image-roll-images-noimages {
+	line-height: 50px;
+	text-align: center;
+	display: block;
+	float: none;
+	width: 100%;
+	font-size: 40px;
+	font-weight: bold;
+	opacity: 0.2;
+}
